@@ -3,7 +3,11 @@ var app = express();
 var PORT = process.env.PORT || 5000;
 
 app.get('/', (req, res, next) => {
-    res.send('Hello world');
+    var obj = JSON.stringify({
+        ad: 'Furkan',
+        tasakAdi: 'Emre'
+    });
+    res.send(obj);
 });
 
 app.get('/emre', (req, res, next) => {
