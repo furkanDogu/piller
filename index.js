@@ -7,10 +7,11 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/emre', (req, res, next) => {
-    res.status(200).json({
+    var obj = JSON.stringify({
         ad: 'Furkan',
         tasakAdi: 'Emre'
     });
+    res.send(obj);
 });
 
 
