@@ -15,7 +15,7 @@ app.get('/emre', (req, res, next) => {
         conn.query('SELECT * FROM firsttable', (error, result) => {
             if(connError) res.status(400).json(connError);
             res.status(200).json(result);
-            conn.release();
+            
         });
     });
     
