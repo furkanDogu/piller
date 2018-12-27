@@ -8,7 +8,7 @@ const { getConnection } = pool;
 
 
 app.get('/', (req, res, next) => {
-    res.send('Hello World !');
+    res.send('Hello World2');
 });
 app.get('/emre', (req, res, next) => {
     getConnection((connError, conn) => {
