@@ -22,6 +22,10 @@ app.use((req, res, next) => {
 
 });
 
+// default page
+app.get('/', (req, res) => {
+    res.send('Please use some endpoints to get API data');
+});
 app.use('/welcome', welcome);
 
 // if all the routes are checked and there is no matched route, then given endpoint is not valid so we need to show 404 not found here.
