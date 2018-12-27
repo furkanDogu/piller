@@ -13,7 +13,8 @@ app.get('/', (req, res, next) => {
 app.get('/emre', (req, res, next) => {
     getConnection((err, conn) => {
         conn.query('SELECT * FROM firsttable', (error, result) => {
-            res.status(200).json(result);
+            
+            res.status(200).json('result');
         });
         conn.release();
     });
