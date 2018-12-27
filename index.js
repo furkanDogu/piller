@@ -1,27 +1,11 @@
-var express = require('express');
-var app = express();
-var pool = require('./db/pool');
+const http = require('http');
+const app = require('./app');
+
+//if any port is given by host use it else use 5000
 var PORT = process.env.PORT || 5000;
-const { getConnection } = pool;
 
+// creating a http server with attached express app
+const server = http.createServer(app);
 
-
-
-app.get('/', (req, res, next) => {
-    res.send('Hello World2');
-});
-app.get('/emre', (req, res, next) => {
-    getConnection((connError, conn) => {
-        conn.query('SELECT * FROM firsttable', (error, result) => {
-            console.log(error);
-            console.log(connError);
-            res.status(200).json(result);
-            
-        });
-    });
-    
-});
-
-app.listen(PORT, () => {
-    console.log('listening on ' + PORT);
-});
+// start listening for requests on the port
+server.listen(PORT);
