@@ -14,11 +14,11 @@ var conn = mysql.createConnection({
     database: "heroku_2ed98b7fdb9a055"
 });
 
-var db = conn.connect();
+conn.connect();
 
 
 app.get('/emre', (req, res, next) => {
-    db.query('SELECT * FROM firsttable', (error, result) => {
+    conn.query('SELECT * FROM firsttable', (error, result) => {
         res.status(200).json(result);
     });
 });
