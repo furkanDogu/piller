@@ -6,6 +6,8 @@ app.get('/', (req, res, next) => {
     res.send('Hello World !');
 });
 
+
+
 app.get('/emre', (req, res, next) => {
     var obj = JSON.stringify({
         ad: 'Furkan',
@@ -13,7 +15,6 @@ app.get('/emre', (req, res, next) => {
     });
     res.send(obj);
 });
-
 
 app.listen(PORT, () => {
     console.log('listening on ' + PORT);
