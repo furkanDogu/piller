@@ -11,9 +11,9 @@ app.get('/', (req, res, next) => {
     res.send('Hello World !');
 });
 app.get('/emre', (req, res, next) => {
-    getConnection((err, conn) => {
+    getConnection((connError, conn) => {
         conn.query('SELECT * FROM firsttable', (error, result) => {
-            if (error) res.status(400).json(error);
+            if(connError) res.status(400).json(connError);
             res.status(200).json(result);
         });
         conn.release();
