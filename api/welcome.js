@@ -3,7 +3,7 @@ const router = express.Router();
 const getConnection = require('../db/pool');
 
 router.get('/', (req, res) => {
-    res.status(200).send('Hello fucking world!');
+    res.status(200).send('Hello freaking world!');
 });
 
 router.get('/emre', (req, res) => {
