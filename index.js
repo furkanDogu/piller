@@ -6,6 +6,14 @@ app.get('/', (req, res, next) => {
     res.send('Hello world');
 });
 
+app.get('/emre', (req, res, next) => {
+    res.status(200).json({
+        ad: 'Furkan',
+        tasakAdi: 'Emre'
+    });
+});
+
+
 app.listen(PORT, () => {
     console.log('listening on ' + PORT);
 });
