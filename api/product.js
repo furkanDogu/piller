@@ -22,13 +22,22 @@ router.get('/categories' ,(req, res, next) => {
     });
 });
 
-router.get('/:id?', (req, res, next) => {
+router.get('/:userID/:id?', (req, res, next) => {
     productService.bringAllProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);
-    }).catch(() => {
+    }).catch((error) => {
         response.sendError(res, error);
     }); 
+});
+
+router.get('/myProducts', (req, res, next) => {
+    productService.bringMyProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
 });
 
 
