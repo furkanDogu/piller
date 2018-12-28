@@ -14,4 +14,14 @@ router.post('/register', (req, res, next) => {
    });
 });
 
+router.post('/login', (req, res, next) => {
+    userService.loginUser(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
 module.exports = router;
