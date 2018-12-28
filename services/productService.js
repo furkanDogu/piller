@@ -31,5 +31,16 @@ productService.bringCategories = (req) => new Promise((resolve, reject) => {
     });
 });
 
+productService.bringAllProducts = (req) => new Promise((resolve, reject) => {
+    getConnection((connError, conn) => {
+        if(connError) reject(connError);
+        let queryString = 'SELECT * FROM view_products_on_sale WHERE userID != ?';
+        conn.query(queryString,[req.body.userID],(error, result) => {
+            if (error) reject(error);
+            resolve(result);
+        });
+    });
+});
+
 
 module.exports = productService;

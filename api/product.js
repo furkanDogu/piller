@@ -22,5 +22,14 @@ router.get('/categories' ,(req, res, next) => {
     });
 });
 
+router.get('/', (req, res, next) => {
+    productService.bringAllProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch(() => {
+        response.sendError(res, error);
+    }); 
+});
+
 
 module.exports = router;
