@@ -40,5 +40,14 @@ router.get('/myProducts', (req, res, next) => {
     });
 });
 
+router.get('/search/:userID/:key', (req, res, next) => {
+    productService.bringProductBySearch(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
 
 module.exports = router;
