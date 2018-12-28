@@ -16,12 +16,17 @@ y
 userService.registerUser = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
         if(connError) reject(connError);
-            let queryString = 'CALL sp_register_user(?, ?, ?, ?, ?, ?);'
-            conn.query(queryString, [req.body.email, req.body.user_password, req.body.user_name, req.body.user_lastname, req.body.x, req.body.y] ,(dErr, result) => {
-                if(dErr) reject(dErr);
-                const singleData = result[0][0];
-                resolve(singleData);
-                conn.release();
+            let queryString = 'SELECT * FROM tbl_user WHERE email = ?';
+            conn.query(queryString, [req.body.email], (err, result) => {
+                if(err) reject(err);
+                
+                queryString = 'CALL sp_register_user(?, ?, ?, ?, ?, ?);'
+                conn.query(queryString, [req.body.email, req.body.user_password, req.body.user_name, req.body.user_lastname, req.body.x, req.body.y] ,(dErr, result) => {
+                    if(dErr) reject(dErr);
+                    const singleData = result[0][0];
+                    resolve(singleData);
+                    conn.release();
+                });
             });
     });
 });
@@ -38,7 +43,7 @@ userService.loginUser = (req) => new Promise((resolve, reject) => {
             let queryString = 'SELECT * FROM tbl_user WHERE ?? = ? AND ?? = ?';
             conn.query(queryString, ['email',req.body.email,'user_password', req.body.user_password] ,(dErr, result) => {
                 if(dErr) reject(dErr);
-                if (!result) reject({ error: 'Kullanıcı bulunamadı'});
+                if (!result) reject({ message: 'Kullanıcı bulunamadı'});
                 resolve(result);
                 conn.release();
             });
