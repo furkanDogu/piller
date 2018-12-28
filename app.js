@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const welcome = require('./api/welcome');
 const userRoute = require('./api/user');
+const productRoute = require('./api/product');
 
 
 // morgan is a tool that showns coming requests in command prompt. Very helpful for debugging
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 });
 app.use('/welcome', welcome);
 app.use('/user', userRoute);
+app.use('/product', productRoute);
 
 // if all the routes are checked and there is no matched route, then given endpoint is not valid so we need to show 404 not found here.
 app.use((req, res, next) => {
