@@ -16,7 +16,6 @@ userService.registerUser = (req) => new Promise((resolve, reject) => {
     console.log(req);
     getConnection((connError, conn) => {
         if(connError) reject(connError);
-            if(berror) reject(berror);
             let queryString = 'CALL sp_register_user(?, ?, ?, ?, ?, ?);'
             conn.query(queryString, [req.body.email, req.body.user_password, req.body.user_name, req.body.user_lastname, req.body.x, req.body.y] ,(dErr, result) => {
                 if(dErr) reject(dErr);
