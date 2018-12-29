@@ -32,4 +32,14 @@ router.get('/:userID', (req,res) => {
     });
 });
 
+router.post('/message', (req, res) => {
+    userService.sendMessage(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
 module.exports = router;

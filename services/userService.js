@@ -80,4 +80,15 @@ userService.getUsers = req => new Promise((resolve, reject) => {
 	});
 });
 
+userService.sendMessage = req => new Promise((resolve, reject) => {
+	getConnection((connError, conn) => {
+		if (connError) reject(connError);
+		let queryString = 'CALL sp_send_message(?, ?, ?)';
+		conn.query(queryString, [req.body.from_user, req.body.to_user, req.body.message_content], (error, result) => {
+			if (error) reject(error);
+			resolve(result);
+		});
+	});
+});
+
 module.exports = userService;
