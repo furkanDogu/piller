@@ -198,6 +198,22 @@ productService.bringBoughtProducts = (req) => new Promise((resolve, reject) => {
     });
 });
 
+productService.addRequestedProduct = (req) => new Promise((resolve, reject) => {
+    getConnection((connError, conn) => {
+        if (connError) reject(connError);
+        let queryString = 'CALL sp_add_request (?, ?, ?, ?, ?)';
+        conn.query(queryString, [
+            req.body.productName,
+            parseInt(req.body.categoryID),
+            parseInt(req.body.userID),
+            parseFloat(req.body.price),
+            req.body.pr_desc
+        ], (error, result) => {
+            if (error) reject(error);
+            resolve(result);
+        });
+    });
+});
 
 
 

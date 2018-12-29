@@ -81,5 +81,14 @@ router.get('/bought/myBoughtProducts/:userID/:id?', (req, res) => {
     });
     
 });
+router.post('/requested', (req, res) => {
+    productService.addRequestedProduct(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+});
 
 module.exports = router;
