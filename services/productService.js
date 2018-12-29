@@ -74,17 +74,33 @@ productService.bringAllProducts = (req) => new Promise((resolve, reject) => {
 productService.bringMyProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
         if (connError) reject(connError);
-        let queryString = 'SELECT * FROM view_products_by_user WHERE userID = ?';
-        conn.query(queryString, [req.params.userID], (err, result) => {
-            if(err) reject(err);
-            const newResult = result.map((product) => {
-                let obj = { ...product };
-                obj.price = obj.price + ' ₺';
-                return obj;
-            }); 
-            resolve(newResult);
-            conn.release();
-        });
+        let queryString = '';
+        if (req.params.id) {
+            queryString = 'SELECT * FROM view_products_by_user WHERE userID = ? AND productID = ?';
+            conn.query(queryString, [req.params.userID, req.params.id] ,(error, result) => {
+                if(error) reject(error);
+                if(result.length === 0) reject({ message: 'Aradığınız ürün bulunamadı'});
+                let newProduct = { ...result[0] };
+                newProduct.price = newProduct.price + ' ₺';
+                resolve(newProduct);
+                conn.release();
+            });
+
+        } else {
+            queryString = 'SELECT * FROM view_products_by_user WHERE userID = ?';
+            conn.query(queryString, [req.params.userID], (err, result) => {
+                if(err) reject(err);
+                const newResult = result.map((product) => {
+                    let obj = { ...product };
+                    obj.price = obj.price + ' ₺';
+                    return obj;
+                }); 
+                resolve(newResult);
+                conn.release();
+            });
+        }
+        
+        
     });
 });
 

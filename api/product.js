@@ -22,7 +22,7 @@ router.get('/categories' ,(req, res) => {
     });
 });
 
-router.get('/myProducts/:userID', (req, res) => {
+router.get('/myProducts/:userID/:id?', (req, res) => {
     productService.bringMyProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);
