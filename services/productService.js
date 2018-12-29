@@ -61,7 +61,6 @@ productService.bringAllProducts = (req) => new Promise((resolve, reject) => {
                 if (error) reject(error);
                 const newResult = result.map((product) => {
                     let obj = { ...product };
-                    console.log(obj);
                     obj.price = obj.price + ' ₺';
                     return obj;
                 });
@@ -77,7 +76,7 @@ productService.bringMyProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
         if (connError) reject(connError);
         let queryString = 'SELECT * FROM view_products_by_user WHERE userID = ?';
-        conn.query(queryString, [req.body.userID], (err, result) => {
+        conn.query(queryString, [req.params.userID], (err, result) => {
             if(err) reject(err);
             resolve(result);
             conn.release();
@@ -92,7 +91,6 @@ productService.bringProductBySearch = (req) => new Promise((resolve, reject) => 
         conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
             if (result.length === 0) {
-                console.log('burada');
                 queryString = 'SELECT * FROM view_products_on_sale WHERE userID != ? ORDER BY pr_date';
                 conn.query(queryString, [req.params.userID], (error, result) => {
                     if (error) reject(error);

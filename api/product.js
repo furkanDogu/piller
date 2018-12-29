@@ -22,6 +22,15 @@ router.get('/categories' ,(req, res, next) => {
     });
 });
 
+router.get('/myProducts/:userID', (req, res, next) => {
+    productService.bringMyProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
 router.get('/:userID/:id?', (req, res, next) => {
     productService.bringAllProducts(req)
     .then((result) => {
@@ -31,14 +40,7 @@ router.get('/:userID/:id?', (req, res, next) => {
     }); 
 });
 
-router.get('/myProducts', (req, res, next) => {
-    productService.bringMyProducts(req)
-    .then((result) => {
-        response.sendSuccess(res, result);
-    }).catch((error) => {
-        response.sendError(res, error);
-    });
-});
+
 
 router.get('/search/:userID/:key', (req, res, next) => {
     productService.bringProductBySearch(req)
