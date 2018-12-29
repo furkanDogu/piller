@@ -91,4 +91,13 @@ router.post('/requested', (req, res) => {
     });
 });
 
+router.get('/requested/withoutMe/:userID', (req, res) => {
+    productService.bringRequestedProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
 module.exports = router;

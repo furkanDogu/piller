@@ -215,6 +215,16 @@ productService.addRequestedProduct = (req) => new Promise((resolve, reject) => {
     });
 });
 
+productService.bringRequestedProducts = (req) => new Promise((resolve, reject) => {
+    getConnection((connError, conn) => {
+        if (connError) reject(connError);
+        let queryString = 'SELECT * FROM view_requested_products WHERE userID != ?';
+        conn.query(queryString,[req.params.userID],(error, result) => {
+            if(error) reject(error);
+            resolve(result);
+        });
+    });
+});
 
 
 module.exports = productService;
