@@ -87,11 +87,21 @@ productService.bringMyProducts = (req) => new Promise((resolve, reject) => {
 
 productService.bringProductBySearch = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
-        if(connError) reject(connError);
+        if(connError) reject(connError); 
         let queryString = "SELECT * FROM view_products_on_sale WHERE userID != ? AND productName LIKE"+" '%"+ req.params.key+"%'";
         conn.query(queryString, [req.params.userID], (error, result) => {
-            if (error) reject(error);       
-            resolve(result);
+            if (error) reject(error);
+            if (result.length === 0) {
+                console.log('burada');
+                queryString = 'SELECT * FROM view_products_on_sale WHERE userID != ? ORDER BY pr_date';
+                conn.query(queryString, [req.params.userID], (error, result) => {
+                    if (error) reject(error);
+                    resolve(result);
+                }); 
+            } else {
+                resolve(result);
+            }
+            
         });
     });
 });
