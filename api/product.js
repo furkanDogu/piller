@@ -61,4 +61,25 @@ router.post('/buy', (req, res) => {
     });
 });
 
+router.get('/sold/mySoldProducts/:userID', (req, res) => {
+    productService.bringSoldProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+});
+
+router.get('/bought/myBoughtProducts/:userID', (req, res) => {
+    productService.bringBoughtProducts(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+    
+});
+
 module.exports = router;
