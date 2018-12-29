@@ -100,4 +100,13 @@ router.get('/requested/withoutMe/:userID', (req, res) => {
     });
 });
 
+router.post('/requested/adjust', (req, res) => {
+    productService.adjustRequestedProduct(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(res, error);
+    });
+});
 module.exports = router;

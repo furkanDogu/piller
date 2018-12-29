@@ -226,5 +226,16 @@ productService.bringRequestedProducts = (req) => new Promise((resolve, reject) =
     });
 });
 
+productService.adjustRequestedProduct = (req) => new Promise((resolve, reject) => {
+    getConnection((connError, conn) => {
+        if(connError) reject(connError);
+        let queryString = 'CALL sp_adjust_request(?, ?)';
+        conn.query(queryString, [req.body.requestID, req.body.userID], (error, result) => {
+            if(error) reject(error);
+            resolve(result);
+        });
+    });
+});
+
 
 module.exports = productService;
