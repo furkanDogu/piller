@@ -61,7 +61,7 @@ router.post('/buy', (req, res) => {
     });
 });
 
-router.get('/sold/mySoldProducts/:userID', (req, res) => {
+router.get('/sold/mySoldProducts/:userID/:id?', (req, res) => {
     productService.bringSoldProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -71,7 +71,7 @@ router.get('/sold/mySoldProducts/:userID', (req, res) => {
     });
 });
 
-router.get('/bought/myBoughtProducts/:userID', (req, res) => {
+router.get('/bought/myBoughtProducts/:userID/:id?', (req, res) => {
     productService.bringBoughtProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);

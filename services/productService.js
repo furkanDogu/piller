@@ -142,8 +142,19 @@ productService.buyProduct = (req) => new Promise((resolve, reject) => {
 productService.bringSoldProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
         if(connError) reject(connError);
-        let queryString = "SELECT * FROM view_sold_products WHERE userID = ?";
-        conn.query(queryString, [req.params.userID], (error, result) => {
+        let queryString = '';
+        if (req.params.id) { 
+            queryString = "SELECT * FROM view_sold_products WHERE userID = ? AND productID = ?";
+            conn.query(queryString, [req.params.userID, req.params.id], (error, result) => {
+                if (error) reject(error);
+                if(result.length === 0) reject({ message: 'Aradığınız ürün bulunamadı'});
+                let newProduct = { ...result[0] };
+                newProduct.price = newProduct.price + ' ₺';
+                resolve(newProduct);
+            });
+        } else {
+            queryString = "SELECT * FROM view_sold_products WHERE userID = ?";
+            conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
             const newResult = result.map((product) => {
                 let obj = { ...product };
@@ -153,23 +164,37 @@ productService.bringSoldProducts = (req) => new Promise((resolve, reject) => {
             resolve(newResult);
             conn.release();
         }); 
+        }
+        
     });
 });
 
 productService.bringBoughtProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
-        let queryString = "SELECT * FROM view_bought_products WHERE buyerID = ?";
         if(connError) reject(connError);
-        conn.query(queryString, [req.params.userID], (error, result) => {
-            if (error) reject(error);
-            const newResult = result.map((product) => {
-                let obj = { ...product };
-                obj.price = obj.price + ' ₺';
-                return obj;
+        let queryString = '';
+        if(req.params.id) {
+            queryString = "SELECT * FROM view_bought_products WHERE buyerID = ? AND productID = ?";
+            conn.query(queryString, [req.params.userID, req.params.id] , (error, result) => {
+                if (error) reject(error);
+                if(result.length === 0) reject({ message: 'Aradığınız ürün bulunamadı'});
+                let newProduct = { ...result[0] };
+                newProduct.price = newProduct.price + ' ₺';
+                resolve(newProduct);
+            });
+        } else {
+            queryString ="SELECT * FROM view_bought_products WHERE buyerID = ?";
+            conn.query(queryString, [req.params.userID], (error, result) => {
+                if (error) reject(error);
+                const newResult = result.map((product) => {
+                    let obj = { ...product };
+                    obj.price = obj.price + ' ₺';
+                    return obj;
+                }); 
+                resolve(newResult);
+                conn.release();
             }); 
-            resolve(newResult);
-            conn.release();
-        }); 
+        }        
     });
 });
 
