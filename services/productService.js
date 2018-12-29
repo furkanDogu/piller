@@ -142,7 +142,7 @@ productService.buyProduct = (req) => new Promise((resolve, reject) => {
 productService.bringSoldProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
         if(connError) reject(connError);
-        let queryString = "SELECT userID, productID, soldID, buyerID, CONCAT(year(sold_date), '.', month(sold_date), '.', dayofmonth(sold_date)) as pr_date FROM tbl_sold_products WHERE userID = ? ORDER BY pr_date";
+        let queryString = "SELECT * FROM view_sold_products WHERE userID = ?";
         conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
             resolve(result);
@@ -153,7 +153,7 @@ productService.bringSoldProducts = (req) => new Promise((resolve, reject) => {
 
 productService.bringBoughtProducts = (req) => new Promise((resolve, reject) => {
     getConnection((connError, conn) => {
-        let queryString = "SELECT userID, productID, boughtID, buyerID, CONCAT(year(bought_date), '.', month(bought_date), '.', dayofmonth(bought_date)) as pr_date FROM tbl_bought WHERE buyerID = ? ORDER BY pr_date";
+        let queryString = "SELECT * FROM view_bought_products WHERE buyerID = ?";
         if(connError) reject(connError);
         conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
