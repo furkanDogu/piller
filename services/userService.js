@@ -91,4 +91,19 @@ userService.sendMessage = req => new Promise((resolve, reject) => {
 	});
 });
 
+userService.getMessage = req => new Promise((resolve, reject) => {
+	getConnection((connError, conn) => {
+		if(connError) reject(connError);
+		let queryString = 'SELECT * FROM tbl_message WHERE from_user = ? AND to_user = ?';
+		conn.query(queryString, [req.params.to,req.params.from], (error, result) => {
+			if (error) reject(error);
+			conn.query(queryString, [req.params.from, req.params.to], (error, Wresult) => {
+				if (error) reject(error);
+				const finalResult = { ...result, ...Wresult };
+				resolve(finalResult);
+			});
+		});
+	});
+});
+
 module.exports = userService;

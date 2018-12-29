@@ -42,4 +42,14 @@ router.post('/message', (req, res) => {
     });
 });
 
+router.get('/message/:to/:from', (req, res) => {
+    userService.getMessage(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    })
+    .catch((error) => {
+        response.sendError(error);
+    });
+});
+
 module.exports = router;
