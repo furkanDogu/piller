@@ -145,7 +145,12 @@ productService.bringSoldProducts = (req) => new Promise((resolve, reject) => {
         let queryString = "SELECT * FROM view_sold_products WHERE userID = ?";
         conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
-            resolve(result);
+            const newResult = result.map((product) => {
+                let obj = { ...product };
+                obj.price = obj.price + ' ₺';
+                return obj;
+            }); 
+            resolve(newResult);
             conn.release();
         }); 
     });
@@ -157,7 +162,12 @@ productService.bringBoughtProducts = (req) => new Promise((resolve, reject) => {
         if(connError) reject(connError);
         conn.query(queryString, [req.params.userID], (error, result) => {
             if (error) reject(error);
-            resolve(result);
+            const newResult = result.map((product) => {
+                let obj = { ...product };
+                obj.price = obj.price + ' ₺';
+                return obj;
+            }); 
+            resolve(newResult);
             conn.release();
         }); 
     });
