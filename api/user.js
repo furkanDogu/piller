@@ -4,7 +4,7 @@ const userService = require('../services/userService');
 const response = require('../helpers/response');
 
 
-router.post('/register', (req, res, next) => {
+router.post('/register', (req, res) => {
    userService.registerUser(req)
    .then((result) => {  
        response.sendSuccess(res, result);
@@ -14,7 +14,7 @@ router.post('/register', (req, res, next) => {
    });
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
     userService.loginUser(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -23,6 +23,13 @@ router.post('/login', (req, res, next) => {
         response.sendError(res, error);
     });
 });
-
+router.get('/:userID', (req,res) => {
+    userService.getUsers(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
+});
 
 module.exports = router;

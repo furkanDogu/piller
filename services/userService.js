@@ -69,4 +69,15 @@ userService.loginUser = req =>
 		});
 	});
 
+userService.getUsers = req => new Promise((resolve, reject) => {
+	getConnection((connError, conn) => {
+		if (connError) reject(connError);
+		let queryString = 'SELECT * FROM tbl_user WHERE userID != ?';
+		conn.query(queryString, [req.params.userID], (error, result) => {
+			if (error) reject(error);
+			resolve(result);
+		});
+	});
+});
+
 module.exports = userService;
