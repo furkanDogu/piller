@@ -99,7 +99,7 @@ userService.getMessage = req => new Promise((resolve, reject) => {
 			if (error) reject(error);
 			conn.query(queryString, [req.params.from, req.params.to], (error, Wresult) => {
 				if (error) reject(error);
-				const finalResult = { ...result, ...Wresult };
+				const finalResult = [ ...result, ...Wresult ];
 				resolve(finalResult);
 			});
 		});
