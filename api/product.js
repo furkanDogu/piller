@@ -4,7 +4,7 @@ const response = require('../helpers/response');
 const productService = require('../services/productService');
 
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
     productService.addProduct(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -13,7 +13,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.get('/categories' ,(req, res, next) => {
+router.get('/categories' ,(req, res) => {
     productService.bringCategories(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -22,7 +22,7 @@ router.get('/categories' ,(req, res, next) => {
     });
 });
 
-router.get('/myProducts/:userID', (req, res, next) => {
+router.get('/myProducts/:userID', (req, res) => {
     productService.bringMyProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -31,7 +31,7 @@ router.get('/myProducts/:userID', (req, res, next) => {
     });
 });
 
-router.get('/:userID/:id?', (req, res, next) => {
+router.get('/:userID/:id?', (req, res) => {
     productService.bringAllProducts(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -42,7 +42,7 @@ router.get('/:userID/:id?', (req, res, next) => {
 
 
 
-router.get('/search/:userID/:key', (req, res, next) => {
+router.get('/search/:userID/:key', (req, res) => {
     productService.bringProductBySearch(req)
     .then((result) => {
         response.sendSuccess(res, result);
@@ -51,5 +51,14 @@ router.get('/search/:userID/:key', (req, res, next) => {
     });
 });
 
+
+router.post('/buy', (req, res) => {
+    productService.buyProduct(req)
+    .then((result) => {
+        response.sendSuccess(res, result);
+    }).catch((error) => {
+        response.sendError(res, error);
+    });
+});
 
 module.exports = router;

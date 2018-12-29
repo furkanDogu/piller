@@ -64,7 +64,6 @@ productService.bringAllProducts = (req) => new Promise((resolve, reject) => {
                     obj.price = obj.price + ' ₺';
                     return obj;
                 });
-                // grup olarak gelenleri favla    
                 resolve(newResult);
             });
         }
@@ -78,7 +77,12 @@ productService.bringMyProducts = (req) => new Promise((resolve, reject) => {
         let queryString = 'SELECT * FROM view_products_by_user WHERE userID = ?';
         conn.query(queryString, [req.params.userID], (err, result) => {
             if(err) reject(err);
-            resolve(result);
+            const newResult = result.map((product) => {
+                let obj = { ...product };
+                obj.price = obj.price + ' ₺';
+                return obj;
+            }); 
+            resolve(newResult);
             conn.release();
         });
     });
@@ -100,6 +104,17 @@ productService.bringProductBySearch = (req) => new Promise((resolve, reject) => 
                 resolve(result);
             }
             
+        });
+    });
+});
+
+productService.buyProduct = (req) => new Promise((resolve, reject) => {
+    getConnection((connError, conn) => {
+        if (connError) reject(connError);
+        let queryString = 'CALL sp_buy_product(?,?)'
+        conn.query(queryString, [req.body.userID, req.body.productID], (error, result) => {
+            if(error) reject(error);
+            resolve(result);
         });
     });
 });
