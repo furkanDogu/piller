@@ -3,7 +3,6 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const welcome = require('./api/welcome');
 const userRoute = require('./api/user');
 const productRoute = require('./api/product');
 
@@ -27,7 +26,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Please use some endpoints to get API data');
 });
-app.use('/welcome', welcome);
+
 app.use('/user', userRoute);
 app.use('/product', productRoute);
 
